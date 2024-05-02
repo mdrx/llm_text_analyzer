@@ -1,3 +1,5 @@
+#edit these as needed. Always include {context} and {input} in the system_prompt if you want relevant responses
+
 systemprompts = {
     "meeting": {
         "short_description": "Meeting summary",
@@ -26,25 +28,6 @@ systemprompts = {
     }
 }
 
-availablemodels_old = {
-    'dolphin-llama3': {
-        "short_description": "a finetuned version of llama3 with less censoring and more instruction obedience",
-        "selected": True
-    },
-    'llama3': {
-        "short_description": "base 8g version as published by Meta",
-        "selected": False
-    },
-}
-
-
-
 import ollama
-
-
+# this lists models that you had pulled into ollama
 availablemodels = {entry['name']: {'short_description': str(entry['details'])} for entry in ollama.list()['models']}
-#for entry in ollama.list()['models']:
-#    
-#    
-#    print(f"{entry['name']}, details: {str(entry['details'])}")
-print(availablemodels)

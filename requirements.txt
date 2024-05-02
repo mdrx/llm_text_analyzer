@@ -1,0 +1,4 @@
+langchain
+flask
+Flask-Session
+ollama

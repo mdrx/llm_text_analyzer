@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analyze text using local LLM</title>
+    <script>
+        
+        var systemPrompts = {{ systemprompts | tojson | safe }};
+        
+    </script>
+    <script>
+        function updateSystemPrompt() {
+            var systemPromptSelect = document.getElementById('systemprompt-select');
+            var questionTextArea = document.getElementById('question-textarea');
+            var systemPromptTextArea = document.getElementById('systemprompt-textarea');
+            var selectedOption = systemPromptSelect.options[systemPromptSelect.selectedIndex];
+            var selectedKey = systemPromptSelect.value;
+
+            // Set the textarea content to the default question of the selected system prompt
+            //questionTextArea.value = selectedOption.getAttribute('data-default-question');
+            questionTextArea.value = systemPrompts[selectedKey].default_question;
+            systemPromptTextArea.value = systemPrompts[selectedKey].system_prompt;
+        }
+
+        function loadFileAsText() {
+            var fileInput = document.getElementById('file-input');
+            var textArea = document.getElementById('content-text');
+
+            var file = fileInput.files[0];
+            var textReader = new FileReader();
+
+            textReader.onload = function() {
+                textArea.value = textReader.result;
+            };
+        
+            textReader.onerror = function() {
+                alert('Error reading file!');
+            };
+        
+            // Read the file as text
+            textReader.readAsText(file);
+        }
+
+        function updateLabel() {
+            var select = document.getElementById('model-select');
+            var label = document.getElementById('model-description');
+            var option = select.options[select.selectedIndex];
+
+            if (option.getAttribute('data-model-hint')) {
+                label.textContent = option.getAttribute('data-model-hint');
+            } else {
+                label.textContent = 'Select a model to see details'; // Default text or handling for no description
+            }
+        }
+        // Update description of model upon selecting
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLabel(); // Update on page load to show the initial selection
+            updateSystemPrompt(); // Update on page load to show the initial selection
+        });
+
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+<body>
+    <h1>Analyze text using local LLM</h1>
+    <form method="post" enctype="multipart/form-data" action="/submit">
+        <table class="form-table">
+            <tr>
+                <td>
+                    Input context 
+                </td>
+                <td>
+                    Upload text file: 
+                    <input type="file" name="file" id="file-input" onchange="loadFileAsText()">
+                    <br>
+                    Or paste text here:
+                    <br>
+                    <textarea name="text" id="content-text" rows="10" cols="80">Adam and Ben are brothers. Sue is Ben's daughter.</textarea>
+                    <br>            
+                </td>
+            </tr>
+            <tr>
+                <td>Select model:</td>
+                <td>
+                    <select name="model" id="model-select" onchange="updateLabel()">
+                        {% for key, value in models.items() %}
+                            <option value="{{ key }}" data-model-hint="{{ value.short_description }}" {% if value['selected'] %}selected{% endif %}>{{ key }}</option>
+                        {% endfor %}
+                    </select>
+                    <label id="model-description">model description goes here</label>
+                    <br>    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Select system prompt:
+                </td>
+                <td>
+                    <select name="systempromptselection" id="systemprompt-select" onchange="updateSystemPrompt()">
+                        {% for key, value in systemprompts.items() %}
+                            <option value="{{ key }}" data-default-question="{{ value.default_question }}" data-systemprompt="{{ value.system_prompt }}" {% if value['selected'] %}selected{% endif %}>{{ value['short_description'] }}</option>
+                        {% endfor %}
+                    </select><br>
+                
+                    <textarea name="system_prompt" id="systemprompt-textarea" rows="5" cols="80"> missing value </textarea><br>
+            
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Enter your question: 
+                </td>
+                <td>
+                    <textarea name="question" id="question-textarea" rows="5" cols="80"> systemprompts['meeting'].default_question </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td>
+                    <br><input type="submit" value="Submit">            
+                </td>
+            </tr>
+        </table>
+    </form>
+    {% if result %}
+    <div class="response-container">
+        <h2>Generated Response:</h2>
+        <p>{{ result['response'] }}</p>
+
+        <div class="metadata-container">
+            <h3>Metadata:</h3>
+            <table>
+                {% for key, value in result['metadata'].items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>

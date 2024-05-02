@@ -1,0 +1,99 @@
+/* Add to your existing styles.css */
+table.form-table td:first-child {
+    font-weight: bold; /* Makes the text bold */
+    vertical-align: top; /* Aligns the text to the top of the cell */
+    padding-right: 20px; /* Adds space between the label and the next column */
+}
+
+table.form-table {
+    width: 100%; /* Ensures the table uses the full width of its container */
+    border-collapse: collapse; /* Collapses border so there's no space between cells */
+}
+
+table.form-table td {
+    padding: 8px; /* Adds padding inside each cell */
+    border-bottom: 1px solid #eee; /* Adds a light line under each row */
+}
+
+table.form-table tr:last-child td {
+    border-bottom: none; /* Removes the border from the last row's cells */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+form, .response-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 960px;
+    margin: auto;
+    margin-top: 20px;
+}
+input[type="file"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+input[type="submit"] {
+    background-color: #5c67f2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: #4a54e1;
+}
+
+.button-style {
+    display: inline-block;
+    background-color: #5c67f2; /* Match the button color */
+    color: white;
+    text-decoration: none; /* Removes underline from links */
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    border: none; /* No border unless you want one */
+}
+
+.button-style:hover {
+    background-color: #4a54e1;
+}
+
+.response-container h2, .response-container h3 {
+    color: #333;
+    font-size: 1.5em;
+}
+.response-container p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+.metadata-container {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    color: #666;
+}
+.metadata-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.metadata-container td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+.metadata-container tr:last-child td {
+    border-bottom: none;
+}

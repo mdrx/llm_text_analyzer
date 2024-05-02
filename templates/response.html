@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RESULT - Analyze text using local LLM</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+<body>
+    {% if response_object %}
+    <div class="response-container">
+        <h2>Generated Response:</h2>
+        <p>{{ response_object['response'] }}</p>
+
+        <div class="metadata-container">
+            <h3>Metadata:</h3>
+            <table>
+                {% for key, value in response_object['metadata'].items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    <div class="response-container">
+        <a href="{{ url_for('home') }}" class="button-style">New request</a>
+    </div>
+</body>
+</html>

@@ -2,3 +2,5 @@ langchain
 flask
 Flask-Session
 ollama
+sentence-transformers
+faiss-cpu

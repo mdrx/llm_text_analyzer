@@ -42,8 +42,8 @@ def get_response(content, question, model, systemprompt):
                 'stop time': datetime.datetime.now(), 
                 'model used': model,
                 'system prompt': systemprompt,
-                'question': question,
-                'input context': content if len(content) < 100000 else content[:10000] + ' \n\n [rest hidden as too large]'
+                'question (\{input\})': question,
+                'context': content if len(content) < 100000 else content[:10000] + ' \n\n [rest hidden as too large]'
             }
         })
 
